@@ -1,0 +1,16 @@
+src
+└── main
+    ├── java
+    │   └── com
+    │       └── example
+    │           ├── controller         // Controller/API
+    │           ├── model              // Model/entities
+    │           ├── repository         // Repository (JPA)
+    │           ├── service            // Service layer
+    │           │   ├── impl           // Implementation của service
+    │           │   └── NewsService.java   // Service logic data
+    │           └── MainApplication.java          // Spring Boot application class
+    └── resources
+        ├── application.properties     // Config
+        ├── schema.sql                 // Script create table (using JDBC)
+        └── data.sql                   // Template data
