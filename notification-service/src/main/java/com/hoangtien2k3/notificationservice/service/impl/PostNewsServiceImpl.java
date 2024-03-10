@@ -24,7 +24,7 @@ public class PostNewsServiceImpl implements PostNewsService {
     }
 
     @Override
-    public Mono<PostNews> savePayment(PostNewsDto postNewsDto) {
+    public Mono<PostNews> savePostNews(PostNewsDto postNewsDto) {
         return Mono.fromSupplier(() -> postNewsRepository.save(PostNewsMappingHelper.map(postNewsDto)))
                 .onErrorResume(throwable -> {
                     log.error("Error saving payment: {}", throwable.getMessage());
@@ -33,13 +33,13 @@ public class PostNewsServiceImpl implements PostNewsService {
     }
 
     @Override
-    public Mono<PostNews> getPayment(Long paymentId) {
+    public Mono<PostNews> getPostNews(Long paymentId) {
         return Mono.fromSupplier(() -> postNewsRepository.findById(paymentId)
                         .orElse(null));
     }
 
     @Override
-    public Mono<List<PostNews>> getAllPayments() {
+    public Mono<List<PostNews>> getAllPostNews() {
         return Mono.fromSupplier(postNewsRepository::findAll)
                 .onErrorResume(throwable -> {
                     log.error("Error fetching user info: {}", throwable.getMessage());
@@ -48,8 +48,22 @@ public class PostNewsServiceImpl implements PostNewsService {
     }
 
     @Override
-    public Mono<Void> deletePayment(Long paymentId) {
+    public Mono<List<PostNews>> getAllPostNewsByUserId(Long userId) {
+        return Mono.fromSupplier(() -> postNewsRepository.findByUserId(userId))
+                .onErrorResume(throwable -> {
+                    log.error("Error fetching user info: {}", throwable.getMessage());
+                    return Mono.empty();
+                });
+    }
+
+    @Override
+    public Mono<Void> deletePostNews(Long paymentId) {
         log.info("Void, service; delete payment by id");
         return Mono.fromRunnable(() -> postNewsRepository.deleteById(paymentId));
+    }
+
+    @Override
+    public Mono<Void> deleteAllPostNews() {
+        return Mono.fromRunnable(postNewsRepository::deleteAll);
     }
 }

@@ -9,7 +9,7 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/payments")
+@RequestMapping("/api/post")
 public class PostNewsController {
 
     private final PostNewsService postNewsService;
@@ -21,22 +21,32 @@ public class PostNewsController {
 
     @PostMapping
     public Mono<PostNews> savePayment(@RequestBody PostNewsDto postNewsDto) {
-        return postNewsService.savePayment(postNewsDto);
+        return postNewsService.savePostNews(postNewsDto);
     }
 
     @GetMapping("/{postId}")
     public Mono<PostNews> getPayment(@PathVariable Long postId) {
-        return postNewsService.getPayment(postId);
+        return postNewsService.getPostNews(postId);
     }
 
     @GetMapping
     public Mono<List<PostNews>> getAllPayments() {
-        return postNewsService.getAllPayments();
+        return postNewsService.getAllPostNews();
+    }
+
+    @GetMapping("/all/{userId}")
+    public Mono<List<PostNews>> getAllPostNewsByUserId(@PathVariable Long userId) {
+        return postNewsService.getAllPostNewsByUserId(userId);
     }
 
     @DeleteMapping("/{postId}")
-    public Mono<Void> deletePayment(@PathVariable Long postId) {
-        return postNewsService.deletePayment(postId);
+    public Mono<Void> deletePostNews(@PathVariable Long postId) {
+        return postNewsService.deletePostNews(postId);
+    }
+
+    @DeleteMapping("/all")
+    public Mono<Void> deleteAllPostNews() {
+        return postNewsService.deleteAllPostNews();
     }
 
 }

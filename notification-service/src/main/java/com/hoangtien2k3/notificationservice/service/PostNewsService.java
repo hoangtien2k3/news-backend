@@ -7,8 +7,10 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 public interface PostNewsService {
-    Mono<PostNews> savePayment(PostNewsDto paymentDto);
-    Mono<PostNews> getPayment(Long paymentId);
-    Mono<List<PostNews>> getAllPayments();
-    Mono<Void> deletePayment(Long paymentId);
+    Mono<PostNews> savePostNews(PostNewsDto paymentDto);
+    Mono<PostNews> getPostNews(Long paymentId);
+    Mono<List<PostNews>> getAllPostNews();
+    Mono<List<PostNews>> getAllPostNewsByUserId(Long userId);
+    Mono<Void> deletePostNews(Long paymentId);
+    Mono<Void> deleteAllPostNews();
 }

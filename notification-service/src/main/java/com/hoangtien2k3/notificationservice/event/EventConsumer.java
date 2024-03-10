@@ -58,7 +58,7 @@ public class EventConsumer {
 
     public void paymentOrderKafkaOnboarding(ReceiverRecord<String, String> receiverRecord) {
         PostNewsDto postNewsDto = gson.fromJson(receiverRecord.value(), PostNewsDto.class);
-        paymentService.savePayment(postNewsDto).subscribe(res -> {
+        paymentService.savePostNews(postNewsDto).subscribe(res -> {
             eventProducer.send(KafkaConstant.PROFILE_ONBOARDED_TOPIC, gson.toJson(postNewsDto)).subscribe();
         });
 

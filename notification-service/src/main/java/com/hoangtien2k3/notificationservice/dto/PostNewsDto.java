@@ -18,5 +18,5 @@ public class PostNewsDto implements Serializable {
     private String link;
     private String img;
     private String pubDate;
-    private String category;
+    private Long userId;
 }

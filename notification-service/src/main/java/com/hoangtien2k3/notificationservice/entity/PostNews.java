@@ -1,5 +1,6 @@
 package com.hoangtien2k3.notificationservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import javax.persistence.*;
 
@@ -13,12 +14,14 @@ import javax.persistence.*;
 public class PostNews {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long postId;
 
     private String title;
     private String link;
     private String img;
     private String pubDate;
-    private String category;
+    @JsonIgnore
+    private Long userId;
 }
 

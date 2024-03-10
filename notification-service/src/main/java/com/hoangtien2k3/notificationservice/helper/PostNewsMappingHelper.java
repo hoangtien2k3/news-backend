@@ -11,7 +11,7 @@ public interface PostNewsMappingHelper {
                 .link(postNews.getLink())
                 .img(postNews.getImg())
                 .pubDate(postNews.getPubDate())
-                .category(postNews.getCategory())
+                .userId(postNews.getUserId())
                 .build();
     }
 
@@ -22,7 +22,7 @@ public interface PostNewsMappingHelper {
                 .link(postNewsDto.getLink())
                 .img(postNewsDto.getImg())
                 .pubDate(postNewsDto.getPubDate())
-                .category(postNewsDto.getCategory())
+                .userId(postNewsDto.getUserId())
                 .build();
     }
 }
