@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.hoangtien2k3</groupId>
-	<artifactId>discovery-service</artifactId>
+	<artifactId>discovery-server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>discovery-server</name>
 	<description>Discovery Server</description>
