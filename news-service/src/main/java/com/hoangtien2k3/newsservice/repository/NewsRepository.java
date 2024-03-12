@@ -11,4 +11,6 @@ import java.util.List;
 public interface NewsRepository extends JpaRepository<News, Long> {
     @Query("SELECT n FROM News n WHERE n.category = ?1")
     List<News> findByCategory(String category);
+
+    List<News> findByTitleContainingIgnoreCase(String keyword);
 }

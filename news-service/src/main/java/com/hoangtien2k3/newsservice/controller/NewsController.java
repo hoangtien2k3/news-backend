@@ -2,12 +2,15 @@ package com.hoangtien2k3.newsservice.controller;
 
 import com.hoangtien2k3.newsservice.dto.NewsDto;
 import com.hoangtien2k3.newsservice.entities.News;
+import com.hoangtien2k3.newsservice.helper.NewsMappingHelper;
 import com.hoangtien2k3.newsservice.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/news")
@@ -57,6 +60,21 @@ public class NewsController {
     @DeleteMapping("/{id}")
     public void deleteNews(@PathVariable Long id) {
         newsService.deleteById(id);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<NewsDto>> searchArticles(@RequestParam String keyword) {
+        List<NewsDto> articles = newsService.fuzzySearch(keyword)
+                .stream()
+                .map(NewsMappingHelper::map)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(articles);
+    }
+
+    @GetMapping("/search/title")
+    public List<News> searchNews(@RequestParam String keyword) {
+        List<News> searchResult = newsService.searchByTitle(keyword);
+        return searchResult;
     }
 
 }

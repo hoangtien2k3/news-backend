@@ -5,18 +5,25 @@ import com.hoangtien2k3.newsservice.entities.News;
 import com.hoangtien2k3.newsservice.helper.NewsMappingHelper;
 import com.hoangtien2k3.newsservice.repository.NewsRepository;
 import com.hoangtien2k3.newsservice.service.NewsService;
+import org.hibernate.search.jpa.FullTextEntityManager;
+import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+
+import javax.persistence.EntityManager;
 import java.util.stream.Collectors;
 
 @Service
 public class NewsServiceImpl implements NewsService {
 
     private final NewsRepository newsRepository;
+
+    @Autowired
+    private EntityManager entityManager;
 
     @Autowired
     public NewsServiceImpl(NewsRepository newsRepository) {
@@ -77,5 +84,20 @@ public class NewsServiceImpl implements NewsService {
     public Boolean existsByOrderId(Long newsId) {
         return newsRepository.existsById(newsId);
     }
+
+    @Override
+    public List<News> fuzzySearch(String keyword) {
+        return newsRepository.findByTitleContainingIgnoreCase(keyword);
+    }
+
+    @Override
+    public List<News> searchByTitle(String title) {
+        FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search.getFullTextEntityManager(entityManager);
+        QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(News.class).get();
+        org.apache.lucene.search.Query query = queryBuilder.keyword().onField("title").matching(title).createQuery();
+        javax.persistence.Query jpaQuery = fullTextEntityManager.createFullTextQuery(query, News.class);
+        return jpaQuery.getResultList();
+    }
+
 }
 

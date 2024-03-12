@@ -16,4 +16,7 @@ public interface NewsService {
     NewsDto update(final Long orderId, final NewsDto newsDto);
     void deleteById(final Long newsId);
     Boolean existsByOrderId(Long newsId);
+
+    List<News> fuzzySearch(String keyword);
+    List<News> searchByTitle(String title);
 }

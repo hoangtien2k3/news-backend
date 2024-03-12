@@ -64,8 +64,15 @@
             <artifactId>jakarta.persistence-api</artifactId>
         </dependency>
 
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-search-orm</artifactId>
+			<version>5.11.7.Final</version> <!-- Sử dụng phiên bản phù hợp -->
+		</dependency>
 
-<!--		<dependency>-->
+
+
+		<!--		<dependency>-->
 <!--			<groupId>io.springfox</groupId>-->
 <!--			<artifactId>springfox-boot-starter</artifactId>-->
 <!--			<version>3.0.0</version>-->
