@@ -1,4 +1,4 @@
-![name_logo.png](..%2Fnews-app%2Fapp%2Fsrc%2Fmain%2Fres%2Fdrawable%2Fname_logo.png)
+![name_logo](https://github.com/hoangtien2k3/news-backend/assets/122768076/78da2bec-7af2-4fd0-929c-8c4b4cdcf33c)
 
 # News-Backend Microservice
 Version：1.0.3（Date：2024-03-11）
@@ -68,7 +68,7 @@ src
 
 - ✅ Signup
   - Request: 
-    ```json
+    ```text
     curl --location --request POST 'http://localhost:8080/api/auth/signup' \
     --data-urlencode 'name=TestUsername' \
     --data-urlencode 'username=test' \
@@ -85,7 +85,7 @@ src
 
 - ✅ Login:
     - Request:
-        ```json
+        ```text
         curl --location --request POST 'http://localhost:8080/login' \
         --data-urlencode 'email=test@gmail.com' \
         --data-urlencode 'password=test'
