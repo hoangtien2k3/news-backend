@@ -146,6 +146,11 @@ src
 - `Database`: Choose and specify the database system used (e.g., MySQL, PostgreSQL).
 - `Other Dependencies`: List any additional dependencies or libraries used.
 
+## Frontend - (Android App):
+
+Clone this repository: https://github.com/hoangtien2k3/news-app
+
+
 ## API Documentation
 
 Document the API endpoints and their functionalities. You can use tools like `Swagger` for
