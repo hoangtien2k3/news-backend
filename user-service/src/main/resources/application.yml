@@ -1,0 +1,48 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: USER-SERVICE
+  datasource:
+    url: jdbc:mysql://localhost:3306/userservice?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: 12042003
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+        id:
+          new_generator_mapping: true
+        show-sql: false
+        format_sql: false
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 485314253624-kbuoodnkctk59m85682hh36sgkiuf90g.apps.googleusercontent.com
+            client-secret: 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
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+
+# swagger-ui custom path
+#springdoc:
+#    swagger-ui:
+#      path: /swagger-ui.html
+#    mvc:
+#      pathmatch:
+#        matching-strategy: ant_path_matcher
+

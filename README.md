@@ -1,22 +1,10 @@
+![name_logo.png](..%2Fnews-app%2Fapp%2Fsrc%2Fmain%2Fres%2Fdrawable%2Fname_logo.png)
 
 # News-Backend Microservice
+Version：1.0.3（Date：2024-03-11）
 
 ## Introduction
-Welcome to the backend component of `news-microservice`. This Java/Kotlin backend is designed to handle the server-side logic and data processing for my application.
-
-## Prerequisites
-Before you begin, ensure you have met the following requirements:
-
-- Java Development Kit `(JDK) 17` or higher installed.
-- Build tool (e.g., `Maven` or `Gradle`) installed.
-- Database system (e.g., `MySQL`, `PostgreSQL`, `MongoDB`...vv) set up and configured.
-- Liquibase Migration Database `MySql`
-- Reactive Programming with WebFlux Reactor Spring Boot.
-- Hibernate, JPA, WebFlux
-- Docker build
-- Restfull API
-- PostMan Testing API and Client.
-- Send message and receiver using Kafka server, Zookeeper, Broker.
+Welcome to the backend component of `news-microservice`. This Java backend is designed to handle the server-side logic and data processing for my application.
 
 ## Features
 - ✅ Using `Microservices` as a high level architecture
@@ -26,7 +14,7 @@ Follow these steps to set up and run the backend:
 
 1. Clone the repository:
 ```bash
-   git clone https://github.com/hoangtien2k3qx1/ecommerce-microservices.git
+   git clone https://github.com/hoangtien2k3/news-backend.git
 ```
 
 #### 1. Navigate to the project directory:
@@ -55,6 +43,91 @@ Follow these steps to set up and run the backend:
   # Using Gradle
   gradle bootRun
 ```
+
+## The Complete Project Folder Structure
+```text
+src
+└── main
+    ├── java
+    │   └── com
+    │       └── example
+    │           ├── controller         // Controller/API
+    │           ├── model              // Model/entities
+    │           ├── repository         // Repository (JPA)
+    │           ├── service            // Service layer
+    │           │   ├── impl           // Implementation của service
+    │           │   └── NewsService.java   // Service logic data
+    │           └── MainApplication.java          // Spring Boot application class
+    └── resources
+        ├── application.properties     // Config
+        ├── schema.sql                 // Script create table (using JDBC)
+        └── data.sql                   // Template data
+```
+
+## Example API Request and Response
+
+- ✅ Signup
+  - Request: 
+    ```json
+    curl --location --request POST 'http://localhost:8080/api/auth/signup' \
+    --data-urlencode 'name=TestUsername' \
+    --data-urlencode 'username=test' \
+    --data-urlencode 'email=test@gmail.com' \
+    --data-urlencode 'password=test' \
+    --data-urlencode 'roles=["ADMIN"]'
+    ```
+  - Response:
+    ```json
+    {
+      "message": "Username signup successfully."
+    }
+    ```
+
+- ✅ Login:
+    - Request:
+        ```json
+        curl --location --request POST 'http://localhost:8080/login' \
+        --data-urlencode 'email=test@gmail.com' \
+        --data-urlencode 'password=test'
+        ```
+      
+    - Response:
+        ```json
+        {
+           "id": 1,
+           "token": "access_token",
+           "type": "Bearer",
+           "name": "TestUsername",
+           "username": "test",
+           "email": "test@gmail.com",
+           "roles": [
+               {
+                   "authority": "ADMIN"
+               }
+           ]
+        }
+        ```
+
+- ✅ news
+  - Request:
+    ```json
+    curl --location --request GET 'http://localhost:9090/api/news' \
+    --header 'Authorization: Bearer access_token'
+    ```
+    
+  - Response:
+    ```json
+    [
+      {
+         "title": "Bộ trưởng Giao thông Vận tải: 'Xây cao tốc phải có trạm dừng nghỉ'",
+         "link": "https://vnexpress.net/bo-truong-giao-thong-van-tai-xay-cao-toc-phai-co-tram-dung-nghi-4718836.html",
+         "img": "https://i1-vnexpress.vnecdn.net/2024/03/05/bo-truong-thang-1871-170965365-7191-8931-1709655295.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=WR6GddepVipQNOYDWY4wVw",
+         "pubDate": "Wed, 06 Mar 2024 00:00:00 +0700"
+      }
+      ...
+    ]
+    ```
+
 
 ## Technologies Used
 - `Java`: The primary programming language.

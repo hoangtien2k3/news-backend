@@ -16,7 +16,7 @@ services:
     container_name: broker
     depends_on:
       - zookeeper
-    ports:
+    ports:s
       - "9092:9092"
       - "9101:9101"
     environment:
