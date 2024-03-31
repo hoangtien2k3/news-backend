@@ -33,7 +33,7 @@ public class AuthenticationController {
         return ApiResponse.<AuthenticationResponse>builder()
                 .code(HttpStatus.OK.value())
                 .message(result.isAuthenticated() ? Constants.SUCCESS : Constants.FAILED)
-                .result(result)
+                .data(result)
                 .build();
     }
 
@@ -46,7 +46,7 @@ public class AuthenticationController {
                 .message(
                         result.isValid() ? Constants.SUCCESS : Constants.FAILED
                 )
-                .result(result)
+                .data(result)
                 .build();
     }
 

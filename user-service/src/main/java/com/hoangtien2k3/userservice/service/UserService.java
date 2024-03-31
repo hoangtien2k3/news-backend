@@ -76,12 +76,12 @@ public class UserService {
     }
 
     @PostAuthorize("returnObject.username == authentication.name")
-    public UserResponse getUserById(String id) {
+    public UserResponse getUserById(Long id) {
         return userMapper.toUserResponse(userRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND)));
     }
 
-    public UserResponse updateUser(UserUpdateRequest userUpdateRequest, String id) {
+    public UserResponse updateUser(UserUpdateRequest userUpdateRequest, Long id) {
         User currentUser = userRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
 
@@ -106,7 +106,7 @@ public class UserService {
     }
 
     @Modifying
-    public IntrospectResponse deleteUserById(String id) {
+    public IntrospectResponse deleteUserById(Long id) {
         try {
             User currentUser = userRepository.findById(id)
                     .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));

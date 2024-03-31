@@ -15,7 +15,7 @@ import lombok.experimental.FieldDefaults;
 public class ApiResponse<T> {
     int code = 200;
     String message;
-    T result;
+    T data;
 
     public static <T> ApiResponse<T> defaultResponse() {
         return ApiResponse.<T>builder()

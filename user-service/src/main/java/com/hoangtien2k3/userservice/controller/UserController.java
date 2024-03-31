@@ -33,7 +33,7 @@ public class UserController {
         log.info("USER-SERVICE: {}", userService);
 
         apiResponse.setMessage(Constants.SUCCESS);
-        apiResponse.setResult(userService.createRequest(userCreationRequest));
+        apiResponse.setData(userService.createRequest(userCreationRequest));
 
         return apiResponse;
     }
@@ -49,16 +49,16 @@ public class UserController {
         return ApiResponse.<List<UserResponse>>builder()
                 .code(HttpStatus.OK.value())
                 .message(Constants.SUCCESS)
-                .result(userService.getAllUser())
+                .data(userService.getAllUser())
                 .build();
     }
 
     @GetMapping("/{id}")
-    private ApiResponse<UserResponse> getUserById(@PathVariable("id") String id) {
+    private ApiResponse<UserResponse> getUserById(@PathVariable("id") Long id) {
         return ApiResponse.<UserResponse>builder()
                 .code(HttpStatus.OK.value())
                 .message(Constants.SUCCESS)
-                .result(userService.getUserById(id))
+                .data(userService.getUserById(id))
                 .build();
     }
 
@@ -67,22 +67,22 @@ public class UserController {
         return ApiResponse.<UserResponse>builder()
                 .code(HttpStatus.OK.value())
                 .message(Constants.SUCCESS)
-                .result(userService.getUserMyInfo())
+                .data(userService.getUserMyInfo())
                 .build();
     }
 
     @PutMapping("/{id}")
     private ApiResponse<UserResponse> updateUser(@RequestBody UserUpdateRequest userUpdateRequest,
-                                    @PathVariable("id") String id) {
+                                    @PathVariable("id") Long id) {
         return ApiResponse.<UserResponse>builder()
                 .code(HttpStatus.OK.value())
                 .message(Constants.SUCCESS)
-                .result(userService.updateUser(userUpdateRequest, id))
+                .data(userService.updateUser(userUpdateRequest, id))
                 .build();
     }
 
     @DeleteMapping("/{id}")
-    private ApiResponse<IntrospectResponse> deleteUserById(@PathVariable("id") String id) {
+    private ApiResponse<IntrospectResponse> deleteUserById(@PathVariable("id") Long id) {
         var result = userService.deleteUserById(id);
         HttpStatus httpStatus = result.isValid() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         String message = result.isValid() ? Constants.SUCCESS : Constants.FAILED;
@@ -90,7 +90,7 @@ public class UserController {
        return ApiResponse.<IntrospectResponse>builder()
                 .code(httpStatus.value())
                 .message(message)
-                .result(result)
+                .data(result)
                 .build();
     }
 
