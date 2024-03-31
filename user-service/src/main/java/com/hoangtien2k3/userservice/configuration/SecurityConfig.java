@@ -26,12 +26,10 @@ public class SecurityConfig {
 
     private final String[] PUBLIC_ENPOINTS = {
             "/api/user/signup",
-            "/auth/token",
-            "/auth/introspect"
-    };
-
-    private final String[] PRIVATE_ENPOINTS = {
-            "/api/user"
+            "/api/user/register",
+            "/api/auth/login",
+            "/api/auth/signin",
+            "/api/auth/introspect"
     };
 
     @Value("${jwt.signerKey}")
@@ -42,9 +40,7 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(request ->
                 request.requestMatchers(HttpMethod.POST, PUBLIC_ENPOINTS).permitAll()
-
                         .anyRequest().authenticated()
-
         );
 
         http.csrf(AbstractHttpConfigurer::disable);

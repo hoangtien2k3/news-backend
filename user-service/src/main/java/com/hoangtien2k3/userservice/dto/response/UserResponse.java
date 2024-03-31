@@ -1,5 +1,6 @@
 package com.hoangtien2k3.userservice.dto.response;
 
+import com.hoangtien2k3.userservice.entity.Timestamps;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -16,4 +17,5 @@ public class UserResponse {
     String username;
     String email;
     Set<String> roles;
+    Timestamps timestamps;
 }

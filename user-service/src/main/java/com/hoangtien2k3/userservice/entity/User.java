@@ -18,11 +18,12 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     String id;
-
     String name;
     String username;
     String email;
     String password;
     @ElementCollection
     Set<String> roles;
+    @Embedded
+    Timestamps timestamps;
 }

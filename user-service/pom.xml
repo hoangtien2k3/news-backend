@@ -9,11 +9,12 @@
 		<relativePath/>
 	</parent>
 	<groupId>com.hoangtien2k3</groupId>
-	<artifactId>identity-service</artifactId>
+	<artifactId>user-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>identity-service</name>
-	<description>Indentity service</description>
+	<name>user-service</name>
+	<description>User service</description>
 	<properties>
+		<spring-cloud.version>2021.0.8</spring-cloud.version>
 		<java.version>17</java.version>
 		<projectlombok-lombok.version>1.18.30</projectlombok-lombok.version>
 		<mapstruct.version>1.5.5.Final</mapstruct.version>
@@ -60,18 +61,6 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-crypto</artifactId>
 		</dependency>
-		<!--		&lt;!&ndash; JWT Token &ndash;&gt;-->
-		<!--		<dependency>-->
-		<!--			<groupId>io.jsonwebtoken</groupId>-->
-		<!--			<artifactId>jjwt</artifactId>-->
-		<!--			<version>0.9.1</version>-->
-		<!--		</dependency>-->
-		<!--		&lt;!&ndash; JWT Token &ndash;&gt;-->
-		<!--		<dependency>-->
-		<!--			<groupId>com.nimbusds</groupId>-->
-		<!--			<artifactId>nimbus-jose-jwt</artifactId>-->
-		<!--			<version>9.30.1</version>-->
-		<!--		</dependency>-->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -83,7 +72,25 @@
 			<artifactId>mapstruct</artifactId>
 			<version>${mapstruct.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-netflix-eureka-client</artifactId>
+			<version>3.1.7</version>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<build>
 		<plugins>

@@ -4,6 +4,7 @@ import com.hoangtien2k3.userservice.dto.request.UserCreationRequest;
 import com.hoangtien2k3.userservice.dto.request.UserUpdateRequest;
 import com.hoangtien2k3.userservice.dto.response.IntrospectResponse;
 import com.hoangtien2k3.userservice.dto.response.UserResponse;
+import com.hoangtien2k3.userservice.entity.Timestamps;
 import com.hoangtien2k3.userservice.entity.User;
 import com.hoangtien2k3.userservice.enums.Role;
 import com.hoangtien2k3.userservice.exception.EnumConfig.ErrorCode;
@@ -22,6 +23,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 
@@ -47,6 +49,10 @@ public class UserService {
         role.add(Role.USER.name());
 
         user.setRoles(role);
+        user.setTimestamps(Timestamps.builder()
+                .created_at(LocalDateTime.now())
+                .updated_at(LocalDateTime.now())
+                .build());
 
         return userMapper.toUserResponse(userRepository.save(user));
     }
@@ -79,12 +85,18 @@ public class UserService {
         User currentUser = userRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
 
+        LocalDateTime create_at = currentUser.getTimestamps().getCreated_at();
+
         log.info("Name: {}", currentUser.getName());
         log.info("Password: {}", currentUser.getPassword());
         log.info("Email: {}", currentUser.getEmail());
 
         userMapper.updateUser(currentUser, userUpdateRequest);
         currentUser.setPassword(passwordEncoder.encode(userUpdateRequest.getPassword()));
+        currentUser.setTimestamps(Timestamps.builder()
+                        .created_at(create_at)
+                        .updated_at(LocalDateTime.now())
+                .build());
 
         log.info("Name1: {}", userUpdateRequest.getName());
         log.info("Password1: {}", userUpdateRequest.getPassword());
@@ -110,4 +122,5 @@ public class UserService {
             throw new AppException(ErrorCode.DATABASE_ERROR);
         }
     }
+
 }
