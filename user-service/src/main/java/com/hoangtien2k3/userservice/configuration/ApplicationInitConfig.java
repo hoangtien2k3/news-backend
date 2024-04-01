@@ -44,6 +44,7 @@ public class ApplicationInitConfig {
                         .build();
 
                 repository.save(user);
+
                 log.warn("admin user has bean create with default password: admin, please change it");
             }
         };

@@ -1,12 +1,12 @@
-package com.hoangtien2k3.newsservice.dto;
+package com.hoangtien2k3.newsservice.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -15,7 +15,6 @@ import java.io.Serializable;
 @Data
 @Builder
 public class NewsDto implements Serializable {
-
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -31,5 +30,4 @@ public class NewsDto implements Serializable {
     @JsonIgnore
     @Column(name = "category")
     private String category;
-
 }

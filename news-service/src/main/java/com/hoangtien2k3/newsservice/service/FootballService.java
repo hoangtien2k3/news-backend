@@ -1,9 +1,7 @@
 package com.hoangtien2k3.newsservice.service;
 
-import com.hoangtien2k3.newsservice.dto.FootballDto;
-import com.hoangtien2k3.newsservice.dto.NewsDto;
+import com.hoangtien2k3.newsservice.dto.response.FootballDto;
 import com.hoangtien2k3.newsservice.entities.Football;
-import com.hoangtien2k3.newsservice.entities.News;
 import org.springframework.data.domain.Page;
 
 import java.util.List;

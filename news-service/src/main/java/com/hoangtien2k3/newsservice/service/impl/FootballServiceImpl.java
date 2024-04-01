@@ -1,6 +1,6 @@
 package com.hoangtien2k3.newsservice.service.impl;
 
-import com.hoangtien2k3.newsservice.dto.FootballDto;
+import com.hoangtien2k3.newsservice.dto.response.FootballDto;
 import com.hoangtien2k3.newsservice.entities.Football;
 import com.hoangtien2k3.newsservice.helper.FootballMappingHelper;
 import com.hoangtien2k3.newsservice.repository.FootballRepository;

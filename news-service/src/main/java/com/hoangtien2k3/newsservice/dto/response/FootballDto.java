@@ -1,6 +1,6 @@
-package com.hoangtien2k3.newsservice.dto;
+package com.hoangtien2k3.newsservice.dto.response;
 
-import javax.persistence.*;
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,5 +25,4 @@ public class FootballDto implements Serializable {
     private String url;
     @Column(name = "date")
     private String date;
-
 }

@@ -1,6 +1,6 @@
 package com.hoangtien2k3.newsservice.controller;
 
-import com.hoangtien2k3.newsservice.dto.FootballDto;
+import com.hoangtien2k3.newsservice.dto.response.FootballDto;
 import com.hoangtien2k3.newsservice.entities.Football;
 import com.hoangtien2k3.newsservice.service.FootballService;
 import org.springframework.beans.factory.annotation.Autowired;

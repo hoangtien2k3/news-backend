@@ -1,5 +1,3 @@
--- Create datanbase
-
 create database newsservice;
 use newsservice;
 

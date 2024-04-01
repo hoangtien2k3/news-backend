@@ -1,45 +1,68 @@
 package com.hoangtien2k3.newsservice.controller;
 
-import com.hoangtien2k3.newsservice.dto.NewsDto;
+import com.hoangtien2k3.newsservice.constant.Constants;
+import com.hoangtien2k3.newsservice.dto.response.ApiResponse;
+import com.hoangtien2k3.newsservice.dto.response.NewsDto;
 import com.hoangtien2k3.newsservice.entities.News;
-import com.hoangtien2k3.newsservice.helper.NewsMappingHelper;
 import com.hoangtien2k3.newsservice.service.NewsService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/news")
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class NewsController {
 
-    private final NewsService newsService;
-
-    @Autowired
-    public NewsController(NewsService newsService) {
-        this.newsService = newsService;
-    }
+    NewsService newsService;
 
     @GetMapping
-    public List<NewsDto> getAllNews() {
-        return newsService.findAll();
-    }
-
-    @GetMapping("/category/{category}")
-    public List<NewsDto> getNewsByCategory(@PathVariable String category) {
-        return newsService.findByCategory(category);
+    public ApiResponse<List<NewsDto>> getAllNews() {
+        return ApiResponse.<List<NewsDto>>builder()
+                .code(HttpStatus.OK.value())
+                .message(Constants.SUCCESS)
+                .totalRecords((long) newsService.findAll().size())
+                .data(newsService.findAll())
+                .build();
     }
 
     @GetMapping("/page")
-    public Page<NewsDto> getAllNewsPaged(
+    public Page<NewsDto> getAllNews(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id") String sortBy,
             @RequestParam(defaultValue = "asc") String sortOrder) {
         return newsService.findAll(page, size, sortBy, sortOrder);
+    }
+
+    @GetMapping("/category/{category}")
+    public ApiResponse<List<NewsDto>> getNewsByCategory(@PathVariable String category) {
+        return ApiResponse.<List<NewsDto>>builder()
+                .code(HttpStatus.OK.value())
+                .message(Constants.SUCCESS)
+                .totalRecords((long) newsService.findByCategory(category).size())
+                .data(newsService.findByCategory(category))
+                .build();
+    }
+
+    @GetMapping("/page/{category}")
+    public ApiResponse<Page<NewsDto>> getNewsByCategory(
+            @PathVariable String category,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortOrder) {
+        return ApiResponse.<Page<NewsDto>>builder()
+                .code(HttpStatus.OK.value())
+                .message(Constants.SUCCESS)
+                .data(newsService.findByCategory(category, page, size, sortBy, sortOrder))
+                .build();
     }
 
     @GetMapping("/{id}")
@@ -61,20 +84,4 @@ public class NewsController {
     public void deleteNews(@PathVariable Long id) {
         newsService.deleteById(id);
     }
-
-    @GetMapping("/search")
-    public ResponseEntity<List<NewsDto>> searchArticles(@RequestParam String keyword) {
-        List<NewsDto> articles = newsService.fuzzySearch(keyword)
-                .stream()
-                .map(NewsMappingHelper::map)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(articles);
-    }
-
-    @GetMapping("/search/title")
-    public List<News> searchNews(@RequestParam String keyword) {
-        List<News> searchResult = newsService.searchByTitle(keyword);
-        return searchResult;
-    }
-
 }

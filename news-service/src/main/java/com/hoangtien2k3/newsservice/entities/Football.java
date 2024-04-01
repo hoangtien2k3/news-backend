@@ -1,6 +1,6 @@
 package com.hoangtien2k3.newsservice.entities;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serial;
@@ -30,5 +30,4 @@ public class Football implements Serializable {
     private String url;
     @Column(name = "date")
     private String date;
-
 }
