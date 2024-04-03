@@ -3,21 +3,20 @@ package com.hoangtien2k3.notificationservice.api;
 import com.hoangtien2k3.notificationservice.dto.PostNewsDto;
 import com.hoangtien2k3.notificationservice.entity.PostNews;
 import com.hoangtien2k3.notificationservice.service.PostNewsService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/post")
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@RequiredArgsConstructor
 public class PostNewsController {
 
-    private final PostNewsService postNewsService;
-
-    @Autowired
-    public PostNewsController(PostNewsService paymentService) {
-        this.postNewsService = paymentService;
-    }
+    PostNewsService postNewsService;
 
     @PostMapping
     public Mono<PostNews> savePayment(@RequestBody PostNewsDto postNewsDto) {

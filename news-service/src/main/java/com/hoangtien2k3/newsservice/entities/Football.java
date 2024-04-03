@@ -2,6 +2,7 @@ package com.hoangtien2k3.newsservice.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -10,6 +11,7 @@ import java.io.Serializable;
 @Table(name = "football")
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
 @Setter
 @Builder
@@ -20,14 +22,15 @@ public class Football implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false, updatable = false)
-    private Long id;
+    Long id;
 
     @Column(name = "title")
-    private String title;
+    String title;
     @Column(name = "thumbnail")
-    private String thumbnail;
+    String thumbnail;
     @Column(name = "url")
-    private String url;
+    String url;
     @Column(name = "date")
-    private String date;
+    String date;
+
 }

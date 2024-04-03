@@ -1,0 +1,56 @@
+# post
+server:
+  port: 8083
+
+# name local
+spring:
+  application:
+    name: notification-service
+
+  # config size in file
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+  # config information send email
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: hoangtien2k3qx1@gmail.com
+    password: uvbskgpuchmgtlbp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls.enable: true
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/notificationservice?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: 12042003
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        id:
+          new_generator_mapping: false
+        show-sql: false
+        format_sql: false
+    generate-ddl: false
+    hibernate:
+      ddl-auto: update
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka

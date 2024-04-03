@@ -17,10 +17,4 @@ public class ApiResponse<T> {
     String message;
     Long totalRecords;
     T data;
-
-    public static <T> ApiResponse<T> defaultResponse() {
-        return ApiResponse.<T>builder()
-                .code(200) // Set default code to 200
-                .build();
-    }
 }

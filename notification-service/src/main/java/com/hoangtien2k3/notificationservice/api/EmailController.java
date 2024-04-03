@@ -2,17 +2,20 @@ package com.hoangtien2k3.notificationservice.api;
 
 import com.hoangtien2k3.notificationservice.dto.EmailDetails;
 import com.hoangtien2k3.notificationservice.service.EmailService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/email")
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@RequiredArgsConstructor
 public class EmailController {
 
-    @Autowired
-    private EmailService emailService;
+    EmailService emailService;
 
     @PostMapping("/sendSimpleMail")
     public Mono<String> sendSimpleMail(@RequestBody EmailDetails details) {

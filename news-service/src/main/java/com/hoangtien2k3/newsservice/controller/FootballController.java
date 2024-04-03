@@ -1,28 +1,37 @@
 package com.hoangtien2k3.newsservice.controller;
 
+import com.hoangtien2k3.newsservice.constant.Constants;
+import com.hoangtien2k3.newsservice.dto.response.ApiResponse;
 import com.hoangtien2k3.newsservice.dto.response.FootballDto;
 import com.hoangtien2k3.newsservice.entities.Football;
 import com.hoangtien2k3.newsservice.service.FootballService;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.http.HttpClient;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequestMapping("/api/football")
 public class FootballController {
 
-    private final FootballService footballService;
-
-    @Autowired
-    public FootballController(FootballService footballService) {
-        this.footballService = footballService;
-    }
+    FootballService footballService;
 
     @GetMapping
-    public List<FootballDto> getAlFootball() {
-        return footballService.findAll();
+    public ApiResponse<List<FootballDto>> getAlFootball() {
+        return ApiResponse.<List<FootballDto>>builder()
+                .code(HttpStatus.OK.value())
+                .message(Constants.SUCCESS)
+                .totalRecords((long) footballService.findAll().size())
+                .data(footballService.findAll())
+                .build();
     }
 
     @GetMapping("/page")

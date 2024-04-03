@@ -1,28 +1,22 @@
 package com.hoangtien2k3.newsservice.dto.response;
 
-import jakarta.persistence.Column;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.io.Serial;
 import java.io.Serializable;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
 @Builder
 public class FootballDto implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Column(name = "title")
-    private String title;
-    @Column(name = "thumbnail")
-    private String thumbnail;
-    @Column(name = "url")
-    private String url;
-    @Column(name = "date")
-    private String date;
+    String title;
+    String thumbnail;
+    String url;
+    String date;
 }

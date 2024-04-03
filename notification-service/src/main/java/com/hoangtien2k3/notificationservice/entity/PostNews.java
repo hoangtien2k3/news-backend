@@ -1,8 +1,8 @@
 package com.hoangtien2k3.notificationservice.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.*;
-import javax.persistence.*;
 
 @Setter
 @Getter

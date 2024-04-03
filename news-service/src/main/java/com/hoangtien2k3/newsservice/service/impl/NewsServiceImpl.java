@@ -11,6 +11,8 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import org.springframework.data.domain.Page;
@@ -68,7 +70,6 @@ public class NewsServiceImpl implements NewsService {
         return newsPage.map(NewsMappingHelper::map);
     }
 
-
     @Override
     public NewsDto findById(Long newsId) {
         return newsRepository.findById(newsId)
@@ -77,9 +78,14 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public NewsDto save(News news) {
-        newsRepository.save(news);
-        return NewsMappingHelper.map(news);
+        try {
+            newsRepository.save(news);
+            return NewsMappingHelper.map(news);
+        } catch (DataAccessException e) {
+            throw new AppException(ErrorCode.DATABASE_ERROR);
+        }
     }
 
     @Override

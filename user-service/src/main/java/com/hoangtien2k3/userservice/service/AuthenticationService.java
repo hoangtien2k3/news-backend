@@ -19,7 +19,6 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -37,6 +36,7 @@ import java.util.StringJoiner;
 public class AuthenticationService {
 
     UserRepository userRepository;
+    PasswordEncoder passwordEncoder;
 
     @NonFinal // not inject constructor
     @Value("${jwt.signerKey}")
@@ -63,18 +63,14 @@ public class AuthenticationService {
         var user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXITSTED));
 
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-
         boolean authenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
         if (!authenticated) {
             throw new AppException(ErrorCode.UNAUTHENTICATED);
         }
 
-        var token = generateToken(user);
-
         return AuthenticationResponse.builder()
                 .authenticated(true)
-                .token(token)
+                .token(generateToken(user))
                 .build();
     }
 
@@ -88,7 +84,7 @@ public class AuthenticationService {
                 .issuer("hoangtien2k3.com")
                 .issueTime(new Date())
                 .expirationTime(
-                        new Date(Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli())
+                        new Date(Instant.now().plus(30, ChronoUnit.DAYS).toEpochMilli())
                 )
                 .claim("scope", buildSope(user))
                 .build();

@@ -1,8 +1,8 @@
 package com.hoangtien2k3.newsservice.entities;
 
-import com.mysql.cj.result.Field;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Indexed;
 
 import java.io.Serial;
@@ -13,6 +13,7 @@ import java.io.Serializable;
 @Indexed
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
 @Setter
 @Builder
@@ -23,16 +24,17 @@ public final class News implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false, updatable = false)
-    private Long id;
+    Long id;
 
     @Column(name = "title")
-    private String title;
+    String title;
     @Column(name = "link")
-    private String link;
+    String link;
     @Column(name = "img")
-    private String img;
+    String img;
     @Column(name = "pubDate")
-    private String pubDate;
+    String pubDate;
     @Column(name = "category")
-    private String category;
+    String category;
 }
+

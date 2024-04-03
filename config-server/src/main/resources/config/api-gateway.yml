@@ -1,0 +1,54 @@
+# Server Configuration
+server:
+  port: 9090
+
+# eureka server url
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+# Spring Cloud Gateway Routes
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: user-service-auth
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/api/auth/**
+        - id: user-service-user
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/api/user/**
+        - id: news-service-news
+          uri: lb://NEWS-SERVICE
+          predicates:
+            - Path=/api/news/**
+        - id: news-service-football
+          uri: lb://NEWS-SERVICE
+          predicates:
+            - Path=/api/football/**
+        - id: search-service
+          uri: lb://SEARCH-SERVICE
+          predicates:
+            - Path=/api/search/**
+        - id: notification-service-send-email
+          uri: lb://NOTIFICATION-SERVICE
+          predicates:
+            - Path=/api/email/**
+        - id: notification-service-save-post
+          uri: lb://NOTIFICATION-SERVICE
+          predicates:
+            - Path=/api/post/**

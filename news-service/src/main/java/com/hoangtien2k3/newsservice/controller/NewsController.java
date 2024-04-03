@@ -22,7 +22,7 @@ public class NewsController {
 
     NewsService newsService;
 
-    @GetMapping
+    @GetMapping("/full")
     public ApiResponse<List<NewsDto>> getAllNews() {
         return ApiResponse.<List<NewsDto>>builder()
                 .code(HttpStatus.OK.value())
@@ -66,22 +66,30 @@ public class NewsController {
     }
 
     @GetMapping("/{id}")
-    public NewsDto getNewsById(@PathVariable Long id) {
-        return newsService.findById(id);
+    public ApiResponse<NewsDto> getNewsById(@PathVariable("id") Long id) {
+        return ApiResponse.<NewsDto>builder()
+                .code(HttpStatus.OK.value())
+                .message(Constants.SUCCESS)
+                .data(newsService.findById(id))
+                .build();
     }
 
     @PostMapping
-    public NewsDto createNews(@RequestBody News news) {
-        return newsService.save(news);
+    public ApiResponse<NewsDto> createNews(@RequestBody News news) {
+        return ApiResponse.<NewsDto>builder()
+                .code(HttpStatus.OK.value())
+                .message(Constants.SUCCESS)
+                .data(newsService.save(news))
+                .build();
     }
 
     @PutMapping("/{id}")
-    public NewsDto updateNews(@PathVariable Long id, @RequestBody NewsDto newsDto) {
+    public NewsDto updateNews(@PathVariable("id") Long id, @RequestBody NewsDto newsDto) {
         return newsService.update(id, newsDto);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteNews(@PathVariable Long id) {
+    public void deleteNews(@PathVariable("id") Long id) {
         newsService.deleteById(id);
     }
 }
