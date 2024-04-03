@@ -1,6 +1,6 @@
 # post
 server:
-  port: 8083
+  port: 8082
 
 # name local
 spring:

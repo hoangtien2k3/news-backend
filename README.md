@@ -4,8 +4,7 @@
 </div>
 
 # News-Backend Microservice
-
-Version：1.0.3（Date：2024-03-11）
+Version：1.0.0（Date：2024-03-11）
 
 ## Introduction ⚡ = 💗💎❤️
 
@@ -23,38 +22,69 @@ Follow these steps to set up and run the backend:
 1. Clone the repository:
 
 ```bash
-   git clone https://github.com/hoangtien2k3/news-backend.git
+git clone https://github.com/hoangtien2k3/news-backend.git
 ```
 
 #### 1. Navigate to the project directory:
 
-```bash
-  cd project-name-backend
+```text
+cd news-backend
 ```
 
 #### 2. Build the project:
 
-```bash
-  # Using Maven
-  mvn clean install
-  
-  # Using Gradle
-  gradle build
+```text
+# Using Maven
+mvn clean install
 ```
 
 #### 3. Configure the database:
 
-- Update `application.properties` or `application.yml` with your database connection details.
+- Create the following database:
+    ```sql
+    CREATE DATABASE userservice;
+    CREATE DATABASE newsservice;
+    CREATE DATABASE searchservice;
+    CREATE DATABASE notificationservice; 
+    ```
+- Update `application.yml` with your database connection details (Change [username]() and [password]()).
 
 #### 4. Run the application:
 
-```bash
-  # Using Maven
-  mvn spring-boot:run
-  
-  # Using Gradle
-  gradle bootRun
+- service run order:
+    - config-service
+    - discovery-service
+    - api-service
+    - user-serivce
+    - search-service
+    - notification-service
+    - news-service
+
+```text
+# Using Maven
+mvn spring-boot:run
 ```
+
+## Configure `docker-compose` connect [Zipkin](https://zipkin.io/) server:
+
+- Move to `news-backend` folder
+    ```text
+    cd news-backend
+    ```
+
+- Open `docker desktop`
+- Run the `docker-compose` file on the terminal
+    ```text
+    docker-compose up -d 
+    ```
+  ![img_run_docker_compose.png_](img_run_docker_compose.png)
+
+- Container docker desktop
+  ![img_docker_desktop.png](img_docker_desktop.png)
+
+- access to server:
+    - zipkin: http://localhost:9411/zipkin/
+    - eureka: http://localhost:8761/
 
 ## The Complete Project Folder Structure
 
@@ -77,22 +107,40 @@ src
         └── data.sql                        // Template data
 ```
 
+## Diagram News-Backend
+
+![diagram.png](diagram.png)
+
 ## Example API Request and Response 🚀
 
 - ✅ Signup
     - Request:
       ```text
       curl --location --request POST 'http://localhost:8080/api/auth/signup' \
-      --data-urlencode 'name=TestUsername' \
-      --data-urlencode 'username=test' \
-      --data-urlencode 'email=test@gmail.com' \
-      --data-urlencode 'password=test' \
-      --data-urlencode 'roles=["ADMIN"]'
+      --data-urlencode 'name=Hoang Anh Tien' \
+      --data-urlencode 'username=hoanganhtien' \
+      --data-urlencode 'email=hoanganhtien@gmail.com' \
+      --data-urlencode 'password=12345678' \
+      --data-urlencode 'roles=["USER"]'
       ```
     - Response:
       ```json
       {
-        "message": "Username signup successfully."
+        "code": 200,
+        "message": "success",
+        "data": {
+          "id": 5,
+          "name": "Hoang Anh Tien",
+          "username": "hoanganhtien",
+          "email": "hoanganhtien@gmail.com",
+          "roles": [
+            "USER"
+          ],
+          "timestamps": {
+            "created_at": "2024-04-04T01:23:45.992125",
+            "updated_at": "2024-04-04T01:23:45.992147"
+          }
+        }
       }
       ```
 
@@ -100,42 +148,42 @@ src
     - Request:
         ```text
         curl --location --request POST 'http://localhost:8080/login' \
-        --data-urlencode 'email=test@gmail.com' \
-        --data-urlencode 'password=test'
+        --data-urlencode 'email=hoanganhtien@gmail.com' \
+        --data-urlencode 'password=12345678'
         ```
     - Response:
         ```json
         {
-           "id": 1,
-           "token": "access_token",
-           "type": "Bearer",
-           "name": "TestUsername",
-           "username": "test",
-           "email": "test@gmail.com",
-           "roles": [
-               {
-                   "authority": "ADMIN"
-               }
-           ]
+           "code": 200,
+           "message": "success",
+           "data": {
+               "authenticated": true,
+              "token": "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJob2FuZ3RpZW4yazMuY29tIiwic3ViIjoiaG9hbmdhbmh0aWVuIiwiZXhwIjoxNzE0NzYwODIzLCJpYXQiOjE3MTIxNjg4MjMsInNjb3BlIjoiVVNFUiJ9.pdsyUBc-3rZbO0mmOS2SMK3mUri-0LQOjbAWZkUCJZAnUk8SuLpQotfo-NnYp4M613UJF76iVYI9Qf9BWFZtew"
+           }
         }
         ```
 
 - ✅ news
     - Request:
       ```text
-      curl --location --request GET 'http://localhost:9090/api/news' \
+      curl --location --request GET 'http://localhost:9090/api/news/full' \
       --header 'Authorization: Bearer access_token'
       ```
     - Response:
       ```json
-      [
-        {
-           "title": "Bộ trưởng Giao thông Vận tải: 'Xây cao tốc phải có trạm dừng nghỉ'",
-           "link": "https://vnexpress.net/bo-truong-giao-thong-van-tai-xay-cao-toc-phai-co-tram-dung-nghi-4718836.html",
-           "img": "https://i1-vnexpress.vnecdn.net/2024/03/05/bo-truong-thang-1871-170965365-7191-8931-1709655295.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=WR6GddepVipQNOYDWY4wVw",
-           "pubDate": "Wed, 06 Mar 2024 00:00:00 +0700"
-        }
-      ]
+      {
+         "code": 200,
+         "message": "success",
+         "totalRecords": 730,
+         "data": [
+             {
+                 "title": "Bộ trưởng Giao thông Vận tải: 'Xây cao tốc phải có trạm dừng nghỉ'",
+                 "link": "https://vnexpress.net/bo-truong-giao-thong-van-tai-xay-cao-toc-phai-co-tram-dung-nghi-4718836.html",
+                 "img": "https://i1-vnexpress.vnecdn.net/2024/03/05/bo-truong-thang-1871-170965365-7191-8931-1709655295.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=WR6GddepVipQNOYDWY4wVw",
+                 "pubDate": "Wed, 06 Mar 2024 00:00:00 +0700"
+             }
+         ]
+      }
       ```
 
 ## Technologies Used
@@ -149,7 +197,6 @@ src
 ## Frontend - (Android App):
 
 Clone this repository: https://github.com/hoangtien2k3/news-app
-
 
 ## API Documentation
 
@@ -177,10 +224,6 @@ Copyright (c) 2024 Hoàng Anh Tiến
 <table>
   <tr>
     <td align="center"><a href="https://www.linkedin.com/in/hoangtien2k3/"><img src="https://avatars.githubusercontent.com/u/122768076?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Hoàng Anh Tiến</b></sub></a><br /><a href="https://github.com/hoangtien2k3/news-app/commits?author=hoangtien2k3" title="Code">💻</a> <a href="#maintenance-hoangtien2k3" title="Maintenance">🚧</a> <a href="#ideas-hoangtien2k3" title="Ideas, Planning, & Feedback">🤔</a> <a href="#design-hoangtien2k3" title="Design">🎨</a> <a href="https://github.com/hoangtien2k3/news-app/issues?q=author%hoangtien2k3" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://www.linkedin.com/in/hoangtien2k3/"><img src="https://avatars.githubusercontent.com/u/111623502?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Vũ Mạnh Chiến</b></sub></a><br /><a href="https://github.com/manhchien16/news-app/commits?author=manhchien16" title="Code">💻</a> <a href="#maintenance-hoangtien2k3" title="Maintenance">🚧</a> <a href="#ideas-hoangtien2k3" title="Ideas, Planning, & Feedback">🤔</a> <a href="#design-hoangtien2k3" title="Design">🎨</a> <a href="https://github.com/hoangtien2k3/news-app/issues?q=author%hoangtien2k3" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://www.linkedin.com/in/hoangtien2k3/"><img src="https://avatars.githubusercontent.com/u/136077367?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Lê Minh Tâm</b></sub></a><br /><a href="https://github.com/Lemited/news-app/commits?author=Lemited" title="Code">💻</a> <a href="#maintenance-hoangtien2k3" title="Maintenance">🚧</a> <a href="#ideas-hoangtien2k3" title="Ideas, Planning, & Feedback">🤔</a> <a href="#design-hoangtien2k3" title="Design">🎨</a> <a href="https://github.com/hoangtien2k3/news-app/issues?q=author%hoangtien2k3" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://www.linkedin.com/in/hoangtien2k3/"><img src="https://avatars.githubusercontent.com/u/138838773?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Nguyễn Chí Hải Anh</b></sub></a><br /><a href="https://github.com/ThirteenMay13/news-app/commits?author=ThirteenMay13" title="Code">💻</a> <a href="#maintenance-hoangtien2k3" title="Maintenance">🚧</a> <a href="#ideas-hoangtien2k3" title="Ideas, Planning, & Feedback">🤔</a> <a href="#design-hoangtien2k3" title="Design">🎨</a> <a href="https://github.com/hoangtien2k3/news-app/issues?q=author%hoangtien2k3" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://www.linkedin.com/in/hoangtien2k3/"><img src="https://avatars.githubusercontent.com/u/158492442?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Nguyễn Hà Thành</b></sub></a><br /><a href="https://github.com/thanhgreenn/news-app/commits?author=thanhgreenn" title="Code">💻</a> <a href="#maintenance-hoangtien2k3" title="Maintenance">🚧</a> <a href="#ideas-hoangtien2k3" title="Ideas, Planning, & Feedback">🤔</a> <a href="#design-hoangtien2k3" title="Design">🎨</a> <a href="https://github.com/hoangtien2k3/news-app/issues?q=author%hoangtien2k3" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 

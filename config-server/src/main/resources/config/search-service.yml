@@ -1,0 +1,19 @@
+# post
+server:
+  port: 8081
+
+# name local
+spring:
+  application:
+    name: search-service
+
+# eureka server url
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0

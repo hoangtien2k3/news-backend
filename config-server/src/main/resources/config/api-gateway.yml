@@ -40,7 +40,7 @@ spring:
           uri: lb://NEWS-SERVICE
           predicates:
             - Path=/api/football/**
-        - id: search-service
+        - id: search-service.yml
           uri: lb://SEARCH-SERVICE
           predicates:
             - Path=/api/search/**
