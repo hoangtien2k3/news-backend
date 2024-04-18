@@ -78,7 +78,7 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public NewsDto save(News news) {
         try {
             newsRepository.save(news);

@@ -2,13 +2,10 @@ package com.hoangtien2k3.notificationservice.service.impl;
 
 import com.hoangtien2k3.notificationservice.dto.EmailDetails;
 import com.hoangtien2k3.notificationservice.service.EmailService;
+import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.FileSystemResource;
@@ -18,22 +15,19 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Mono;
-
-import javax.mail.MessagingException;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Objects;
 
 @Slf4j
-@Data
-@Getter
 @Service
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@RequiredArgsConstructor
 public class EmailServiceImpl implements EmailService {
 
-    JavaMailSender javaMailSender;
-    protected String fromEmail = "hoangtien2k3qx1@gmail.com";
+    @Autowired
+    private JavaMailSender javaMailSender;
+
+//    @Value("${spring.mail.username}")
+    private String fromEmail = "hoangtien2k3qx1@gmail.com";
 
     @Override
     public Mono<String> sendSimpleMail(EmailDetails details) {

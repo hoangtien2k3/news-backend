@@ -1,7 +1,6 @@
 package com.hoangtien2k3.newsservice.helper;
 
 import com.hoangtien2k3.newsservice.dto.response.NewsDto;
-import com.hoangtien2k3.newsservice.entities.Category;
 import com.hoangtien2k3.newsservice.entities.News;
 
 public interface NewsMappingHelper {
