@@ -4,9 +4,12 @@ import com.hoangtien2k3.userservice.dto.request.AuthenticationRequest;
 import com.hoangtien2k3.userservice.dto.request.IntrospectRequest;
 import com.hoangtien2k3.userservice.dto.response.AuthenticationResponse;
 import com.hoangtien2k3.userservice.dto.response.IntrospectResponse;
+import com.hoangtien2k3.userservice.dto.response.UserResponse;
+import com.hoangtien2k3.userservice.entity.Timestamps;
 import com.hoangtien2k3.userservice.entity.User;
 import com.hoangtien2k3.userservice.exception.EnumConfig.ErrorCode;
 import com.hoangtien2k3.userservice.exception.payload.AppException;
+import com.hoangtien2k3.userservice.mapper.UserMapper;
 import com.hoangtien2k3.userservice.repository.UserRepository;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
@@ -19,12 +22,13 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-
 import java.text.ParseException;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.StringJoiner;
@@ -37,6 +41,7 @@ public class AuthenticationService {
 
     UserRepository userRepository;
     PasswordEncoder passwordEncoder;
+    UserMapper userMapper;
 
     @NonFinal // not inject constructor
     @Value("${jwt.signerKey}")
@@ -68,12 +73,19 @@ public class AuthenticationService {
             throw new AppException(ErrorCode.UNAUTHENTICATED);
         }
 
+        /**
+         * Info user login
+         * **/
         return AuthenticationResponse.builder()
                 .authenticated(true)
                 .token(generateToken(user))
+                .id(user.getId())
+                .name(user.getName())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .roles(user.getRoles())
                 .build();
     }
-
 
     private String generateToken(User user) {
         // create header
