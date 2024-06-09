@@ -12,6 +12,6 @@ public interface FootballService {
     FootballDto findById(Long footballId);
     FootballDto save(final Football football);
     FootballDto update(final FootballDto footballDto);
-    FootballDto update(final Long orderId, final FootballDto footballDto);
+    FootballDto update(final Long orderId, final Football football);
     void deleteById(final Long footballId);
 }

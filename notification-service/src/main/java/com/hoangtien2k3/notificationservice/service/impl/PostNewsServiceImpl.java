@@ -33,8 +33,8 @@ public class PostNewsServiceImpl implements PostNewsService {
     }
 
     @Override
-    public Mono<PostNews> getPostNews(Long paymentId) {
-        return Mono.fromSupplier(() -> postNewsRepository.findById(paymentId)
+    public Mono<PostNews> getPostNews(Long postId) {
+        return Mono.fromSupplier(() -> postNewsRepository.findById(postId)
                         .orElse(null));
     }
 

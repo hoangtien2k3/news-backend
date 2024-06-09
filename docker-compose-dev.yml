@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  oracle-db:
+    container_name: oracle-db
+    image: container-registry.oracle.com/database/enterprise:latest
+    ports:
+      - 1522:1521
+      - 5501:5500
+    volumes:
+      - oracle-data:/opt/oracle/oradata
+      - oracle-backup:/opt/oracle/backup
+    environment:
+      - ORACLE_SID=musicdb
+      - ORACLE_PDB=musicdbpdb1
+      - ORACLE_PWD=12042003
+      - ORACLE_CHARACTERSET=AL32UTF8
+    healthcheck:
+      test: ["CMD", "bash", "-c", "sqlplus / as sysdba <<< 'select 1 from dual'"]
+      interval: 1m
+      timeout: 5s
+      retries: 3
+      start_period: 1m
+
+volumes:
+  oracle-data:
+  oracle-backup:
+    driver: local

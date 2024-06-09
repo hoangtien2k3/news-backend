@@ -58,8 +58,15 @@ public class FootballServiceImpl implements FootballService {
     }
 
     @Override
-    public FootballDto update(Long orderId, FootballDto footballDto) {
-        return null;
+    public FootballDto update(Long orderId, Football football) {
+        return FootballMappingHelper.map(footballRepository.save(
+                Football.builder()
+                        .title(football.getTitle())
+                        .thumbnail(football.getThumbnail())
+                        .url(football.getUrl())
+                        .date(football.getDate())
+                        .build()
+        ));
     }
 
     @Override

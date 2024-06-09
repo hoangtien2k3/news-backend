@@ -19,7 +19,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -94,8 +93,15 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public NewsDto update(Long id, NewsDto newsDto) {
-        return null;
+    public NewsDto update(Long id, News news) {
+        News news1 = newsRepository.getById(id);
+        news1.setTitle(news.getTitle());
+        news1.setImg(news.getImg());
+        news1.setCategory(news.getCategory());
+        news1.setLink(news.getLink());
+        news1.setPubDate(news.getPubDate());
+
+        return NewsMappingHelper.map(newsRepository.save(news1));
     }
 
     @Override

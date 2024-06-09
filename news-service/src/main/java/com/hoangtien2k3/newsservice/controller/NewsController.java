@@ -84,8 +84,8 @@ public class NewsController {
     }
 
     @PutMapping("/{id}")
-    public NewsDto updateNews(@PathVariable("id") Long id, @RequestBody NewsDto newsDto) {
-        return newsService.update(id, newsDto);
+    public NewsDto updateNews(@PathVariable("id") Long id, @RequestBody News news) {
+        return newsService.update(id, news);
     }
 
     @DeleteMapping("/{id}")

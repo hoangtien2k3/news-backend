@@ -54,8 +54,8 @@ public class FootballController {
     }
 
     @PutMapping("/{id}")
-    public FootballDto updateFootball(@PathVariable Long id, @RequestBody FootballDto footballDto) {
-        return footballService.update(id, footballDto);
+    public FootballDto updateFootball(@PathVariable Long id, @RequestBody Football football) {
+        return footballService.update(id, football);
     }
 
     @DeleteMapping("/{id}")

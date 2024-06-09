@@ -14,7 +14,7 @@ public interface NewsService {
     NewsDto findById(Long newsId);
     NewsDto save(final News news);
     NewsDto update(final NewsDto newsDto);
-    NewsDto update(final Long orderId, final NewsDto newsDto);
+    NewsDto update(final Long orderId, final News news);
     void deleteById(final Long newsId);
     Boolean existsByOrderId(Long newsId);
 }
